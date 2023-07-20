@@ -25,10 +25,10 @@ if __name__ == '__main__':
     parser.add_argument('--test', default=0, nargs='?')
     args = parser.parse_args()
 
-    with zipfile.ZipFile('./data/rossmann-store-sales.zip', 'r') as zip_ref:
-        zip_ref.extractall('./data/raw')
+    with zipfile.ZipFile('./mdata/rossmann-store-sales.zip', 'r') as zip_ref:
+        zip_ref.extractall('./mdata/raw')
 
-    raw = pd.read_csv('./data/raw/train.csv', parse_dates=True)
+    raw = pd.read_csv('./mdata/raw/train.csv', parse_dates=True)
     data = raw.set_index('Date')
     data = data.sort_index()
 
@@ -41,10 +41,10 @@ if __name__ == '__main__':
     np.random.seed(42)
     masked = mask_training_data(train)
 
-    masked.to_csv('./data/train.csv')
+    masked.to_csv('./mdata/train.csv')
 
-    os.rename('./data/raw/store.csv', './data/store.csv')
-    shutil.rmtree('./data/raw')
+    os.rename('./mdata/raw/store.csv', './mdata/store.csv')
+    shutil.rmtree('./mdata/raw')
 
     if bool(int(args.test)):
-        test.to_csv('./data/holdout.csv')
+        test.to_csv('./mdata/holdout.csv')
